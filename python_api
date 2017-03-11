@@ -1,0 +1,42 @@
+import urllib2
+import urllib
+import json
+
+api = 'https://jsonplaceholder.typicode.com/'
+
+
+def get_test():
+    '''GET <=> Testing API for AutoDesk'''
+
+    response = urllib2.urlopen(api)
+    print response.getcode()
+    print response.geturl()
+    print json.dumps(response.read(), sort_keys=True, indent=8)
+
+def post_test():
+    '''POST <=> Testing API for Autodesk'''
+    method = 'posts'
+    query_args = { 'title':'war1', 'body':'war2', 'userId':3 }
+    data = urllib.urlencode(query_args)
+    request = urllib2.Request(api+method, data)
+    response = urllib2.urlopen(request)
+    print json.dumps(response.read(), sort_keys=True, indent=8)
+
+     
+def put_test():
+    opener = urllib2.build_opener(urllib2.HTTPHandler)  
+    with open(" ") as f:  
+        data=f.read()  
+    request = urllib2.Request(api, data=data)  
+    #request.add_header("Content-Type", "image/png")  
+    request.get_method = lambda:"PUT"  
+    response = opener.open(request)
+    
+    pprint.pprint(response.read())
+
+#def get_account():
+
+
+
+get_test()
+post_test()
