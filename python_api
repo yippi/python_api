@@ -4,9 +4,25 @@ import json
 
 api = 'https://jsonplaceholder.typicode.com/'
 
+def get_connection():
+    auth_token = get_token()
+    req=urllib2.Request(api, None, {"Authorization": "Bearer %s" %auth_token})
+    response=urllib2.urlopen(req)
+    html=response.read()
+    json_obj=json.loads(html)
+    return json_obj    
+
+def get_token():
+    '''GET <=> Retrieve bearer token '''
+    req=urllib2.Request(api)
+    response=urllib2.urlopen(req)
+    html=response.read()
+    json_obj=json.loads(html)
+    token_string=json_obj["token"].encode("ascii","ignore")
+    return token_string
 
 def get_test():
-    '''GET <=> Testing API for AutoDesk'''
+    '''GET <=> Testing API'''
 
     response = urllib2.urlopen(api)
     print response.getcode()
@@ -14,7 +30,7 @@ def get_test():
     print json.dumps(response.read(), sort_keys=True, indent=8)
 
 def post_test():
-    '''POST <=> Testing API for Autodesk'''
+    '''POST <=> Testing API'''
     method = 'posts'
     query_args = { 'title':'war1', 'body':'war2', 'userId':3 }
     data = urllib.urlencode(query_args)
